@@ -1,0 +1,75 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'blog/post-detail.css' %}" />
+{% endblock %} 
+
+{% block title %}
+  {{ post.title }}
+{% endblock %} 
+
+{% block content %} 
+
+{% if comment_form.errors %}
+
+<div id="alert">
+  <h2>Saving the form failed!!!</h2>
+  <a href="#comment-form">Fix!!</a>
+</div>
+
+{% endif %}
+
+<section id="summary">
+  <h2>{{ post.title }}</h2>
+  <div>
+    {% for tag in tags %}
+    <span class="tag">{{ tag.caption }}</span>
+    {% endfor %}
+  </div>
+  <div id="readlater">
+    <form action="{% url 'readlater' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="post_id" value="{{ post.id }}" />
+      <button>
+        {% if is_saved_for_later %} Remove {% else %} Read Later {% endif %}
+      </button>
+    </form>
+  </div>
+  <article>
+    <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+    <address>
+      By <a href="mailto:{{ post.author.email }}">{{ post.author |title }}</a>
+    </address>
+    <div>Last updated on <time>{{ post.date|date:"d M Y" }}</time></div>
+  </article>
+</section>
+
+<main>
+  <p>{{ post.content|linebreaks }}</p>
+
+  <section id="comments">
+    <ul>
+      {% for comment in comments %}
+      <li>
+        <h2>{{ comment.user_name }}</h2>
+        <p>{{ comment.text }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="comment-form">
+    <h2>Your Comment</h2>
+    <form action="{% url 'post-detail' post.slug %}" method="POST">
+      {% csrf_token %} {% for field in comment_form %}
+      <div class="form-control {% if field.errors %}invalid{% endif %}">
+        {{ field.label_tag }} {{ field }} {{ field.errors }}
+      </div>
+      {% endfor %}
+      <button>Submit</button>
+    </form>
+  </section>
+</main>
+{% endblock %}

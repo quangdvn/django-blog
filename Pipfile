@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+pillow = "*"
+mysqlclient = "*"
+django-storages = "*"
+boto3 = "*"
+
+[dev-packages]
+autopep8 = "*"
+pylint = "*"
+pylint-django = "*"
+
+[requires]
+python_version = "3.9"

@@ -1,0 +1,16 @@
+{% comment %} {% load static %} {% endcomment %}
+<li>
+  <article class="post">
+    <a href="{% url 'post-detail' slug=post.slug %}">
+      <img
+        {% comment %} src="{% static 'blog/images/'|add:post.image_name %}" {% endcomment %}
+        src={{ post.image.url }}
+        alt="{{ post.title }}"
+      />
+      <div class="post__content">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt }}</p>
+      </div>
+    </a>
+  </article>
+</li>

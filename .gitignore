@@ -1,0 +1,10 @@
+.venv
+.pylintrc
+
+Pipfile.lock
+requirements.txt
+
+uploads
+staticfiles
+
+django_blog/settings.py
